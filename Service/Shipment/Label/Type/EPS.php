@@ -86,7 +86,7 @@ class EPS extends Domestic
      */
     public function isRotatedProduct($code)
     {
-        return in_array($code, $this->rotated);
+        return in_array($code, $this->rotated, true);
     }
 
     /**
@@ -132,7 +132,7 @@ class EPS extends Domestic
      */
     public function isPriorityProduct($code)
     {
-        return in_array($code, $this->priority);
+        return in_array($code, $this->priority, true);
     }
 
     /**

@@ -115,7 +115,7 @@ class A4Merger extends AbstractMerger implements MergeInterface
             $this->increaseCounter();
         }
 
-        list($xPosition, $yPosition) = $this->getPosition();
+        [$xPosition, $yPosition] = $this->getPosition();
         $this->setLastOrientation($orientation);
         $this->pdf->useTemplate($templateId, $xPosition, $yPosition);
     }

@@ -185,7 +185,7 @@ class DefaultOptions implements OptionSourceInterface
         }, $idOptions);
 
         $options = array_filter($options, function ($option) use ($idKeys) {
-            return !in_array($option['value'], $idKeys);
+            return !in_array($option['value'], $idKeys, true);
         });
 
         return $options;

@@ -7,15 +7,13 @@ use Magento\Framework\Setup\ModuleDataSetupInterface;
 use TIG\PostNL\Setup\AbstractDataInstaller;
 use TIG\PostNL\Config\Provider\ShippingOptions;
 
-// @codingStandardsIgnoreFile
 class UpdateConfigData extends AbstractDataInstaller
 {
     /**
      * @param ModuleDataSetupInterface $setup
      * @param ModuleContextInterface   $context
      */
-    // @codingStandardsIgnoreLine
-    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context): void
     {
         $table = $setup->getTable('core_config_data');
         $setup->getConnection()->delete($table, 'path = \'' . ShippingOptions::XPATH_SHIPPING_OPTION_EVENING_BE_ACTIVE . '\'');

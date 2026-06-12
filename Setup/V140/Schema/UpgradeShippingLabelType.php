@@ -10,12 +10,7 @@ class UpgradeShippingLabelType implements UpgradeSchemaInterface
 {
     const TABLE_NAME = 'tig_postnl_shipment_label';
 
-    /**
-     * @param SchemaSetupInterface   $setup
-     * @param ModuleContextInterface $context
-     */
-    // @codingStandardsIgnoreLine
-    public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
+    public function install(SchemaSetupInterface $setup, ModuleContextInterface $context): void
     {
         $this->upgrade($setup, $context);
     }
@@ -26,8 +21,7 @@ class UpgradeShippingLabelType implements UpgradeSchemaInterface
      *
      * {@inheritdoc}
      */
-    // @codingStandardsIgnoreLine
-    public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context)
+    public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context): void
     {
         $setup->startSetup();
 

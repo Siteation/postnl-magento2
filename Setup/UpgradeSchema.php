@@ -5,43 +5,72 @@ namespace TIG\PostNL\Setup;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 use Magento\Framework\Setup\UpgradeSchemaInterface;
+use TIG\PostNL\Setup\V120\Schema\SalesShipmentGridColumns as SalesShipmentGridColumns120;
+use TIG\PostNL\Setup\V120\Schema\SalesOrderGridColumns as SalesOrderGridColumns120;
+use TIG\PostNL\Setup\V120\Schema\UpgradeOrderTable as UpgradeOrderTable120;
+use TIG\PostNL\Setup\V120\Schema\InstallMatrixRateTable;
+use TIG\PostNL\Setup\V130\Schema\UpgradeForeignKeysOrderTable;
+use TIG\PostNL\Setup\V131\Schema\UpgradeOrderTable as UpgradeOrderTable131;
+use TIG\PostNL\Setup\V131\Schema\UpgradeShipmentTable as UpgradeShipmentTable131;
+use TIG\PostNL\Setup\V140\Schema\UpgradeShippingLabelType;
+use TIG\PostNL\Setup\V141\Schema\UpgradeOrderTable as UpgradeOrderTable141;
+use TIG\PostNL\Setup\V152\Schema\SalesShipmentGridColumns as SalesShipmentGridColumns152;
+use TIG\PostNL\Setup\V152\Schema\SalesOrderGridColumns as SalesOrderGridColumns152;
+use TIG\PostNL\Setup\V152\Schema\UpgradeOrderTable as UpgradeOrderTable152;
+use TIG\PostNL\Setup\V152\Schema\UpgradeShipmentTable;
+use TIG\PostNL\Setup\V153\Schema\SalesShipmentGridColumns as SalesShipmentGridColumns153;
+use TIG\PostNL\Setup\V161\Schema\UpgradeShipmentLabelTable;
+use TIG\PostNL\Setup\V174\Schema\InstallDownpartnerAttributes;
+use TIG\PostNL\Setup\V180\Schema\InstallPriorityAttribute;
+use TIG\PostNL\Setup\V182\Schema\ModifyConditionNameColumn;
+use TIG\PostNL\Setup\V190\Schema\InstallReturnBarcode;
+use TIG\PostNL\Setup\V190\Schema\InstallReturnLabel;
+use TIG\PostNL\Setup\V191\Schema\InstallStatedAddressOnly;
+use TIG\PostNL\Setup\V1125\Schema\InstallSmartReturnBarcode;
+use TIG\PostNL\Setup\V1125\Schema\InstallSmartReturnLabel;
+use TIG\PostNL\Setup\V1125\Schema\InstallIsSmartReturn;
+use TIG\PostNL\Setup\V1125\Schema\InstallSmartReturnEmailSent;
+use TIG\PostNL\Setup\V1127\Schema\InstallOrderInsuredTier;
+use TIG\PostNL\Setup\V1127\Schema\InstallShipmentInsuredTier;
+use TIG\PostNL\Setup\V1130\Schema\InstallOrderAcInformation;
+use TIG\PostNL\Setup\V1130\Schema\InstallShipmentAcInformation;
+use TIG\PostNL\Setup\V1140\Schema\InstallReturnStatus;
 
-// @codingStandardsIgnoreFile
 class UpgradeSchema implements UpgradeSchemaInterface
 {
     private array $upgradeSchemaObjects;
 
     public function __construct(
-        \TIG\PostNL\Setup\V120\Schema\SalesShipmentGridColumns $salesShipmentGridColumns,
-        \TIG\PostNL\Setup\V120\Schema\SalesOrderGridColumns $salesOrderGridColumns,
-        \TIG\PostNL\Setup\V120\Schema\UpgradeOrderTable $upgradeOrderTable,
-        \TIG\PostNL\Setup\V120\Schema\InstallMatrixRateTable $installMatrixRateTable,
-        \TIG\PostNL\Setup\V130\Schema\UpgradeForeignKeysOrderTable $upgradeForeignKeysOrderTable,
-        \TIG\PostNL\Setup\V131\Schema\UpgradeOrderTable $upgradeOrderTable131,
-        \TIG\PostNL\Setup\V131\Schema\UpgradeShipmentTable $upgradeShipmentTable131,
-        \TIG\PostNL\Setup\V140\Schema\UpgradeShippingLabelType $upgradeShippingLabelType,
-        \TIG\PostNL\Setup\V141\Schema\UpgradeOrderTable $upgradeOrderTable141,
-        \TIG\PostNL\Setup\V152\Schema\SalesShipmentGridColumns $salesShipmentGridColumns152,
-        \TIG\PostNL\Setup\V152\Schema\SalesOrderGridColumns $salesOrderGridColumns152,
-        \TIG\PostNL\Setup\V152\Schema\UpgradeOrderTable $upgradeOrderTable152,
-        \TIG\PostNL\Setup\V152\Schema\UpgradeShipmentTable $upgradeShipmentTable,
-        \TIG\PostNL\Setup\V153\Schema\SalesShipmentGridColumns $salesShipmentGridColumns153,
-        \TIG\PostNL\Setup\V161\Schema\UpgradeShipmentLabelTable $upgradeShipmentLabelTable,
-        \TIG\PostNL\Setup\V174\Schema\InstallDownpartnerAttributes $installDownpartnerAttributes,
-        \TIG\PostNL\Setup\V180\Schema\InstallPriorityAttribute $installPriorityAttribute,
-        \TIG\PostNL\Setup\V182\Schema\ModifyConditionNameColumn $modifyConditionNameColumn,
-        \TIG\PostNL\Setup\V190\Schema\InstallReturnBarcode $installReturnBarcode,
-        \TIG\PostNL\Setup\V190\Schema\InstallReturnLabel $installReturnLabel,
-        \TIG\PostNL\Setup\V191\Schema\InstallStatedAddressOnly $installStatedAddressOnly,
-        \TIG\PostNL\Setup\V1125\Schema\InstallSmartReturnBarcode $installSmartReturnBarcode,
-        \TIG\PostNL\Setup\V1125\Schema\InstallSmartReturnLabel $installSmartReturnLabel,
-        \TIG\PostNL\Setup\V1125\Schema\InstallIsSmartReturn $installIsSmartReturn,
-        \TIG\PostNL\Setup\V1125\Schema\InstallSmartReturnEmailSent $installSmartReturnEmailSent,
-        \TIG\PostNL\Setup\V1127\Schema\InstallOrderInsuredTier $installOrderInsuredTier,
-        \TIG\PostNL\Setup\V1127\Schema\InstallShipmentInsuredTier $installShipmentInsuredTier,
-        \TIG\PostNL\Setup\V1130\Schema\InstallOrderAcInformation $installOrderAcInformation,
-        \TIG\PostNL\Setup\V1130\Schema\InstallShipmentAcInformation $installShipmentAcInformation,
-        \TIG\PostNL\Setup\V1140\Schema\InstallReturnStatus $installReturnStatus
+        SalesShipmentGridColumns120 $salesShipmentGridColumns,
+        SalesOrderGridColumns120 $salesOrderGridColumns,
+        UpgradeOrderTable120 $upgradeOrderTable,
+        InstallMatrixRateTable $installMatrixRateTable,
+        UpgradeForeignKeysOrderTable $upgradeForeignKeysOrderTable,
+        UpgradeOrderTable131 $upgradeOrderTable131,
+        UpgradeShipmentTable131 $upgradeShipmentTable131,
+        UpgradeShippingLabelType $upgradeShippingLabelType,
+        UpgradeOrderTable141 $upgradeOrderTable141,
+        SalesShipmentGridColumns152 $salesShipmentGridColumns152,
+        SalesOrderGridColumns152 $salesOrderGridColumns152,
+        UpgradeOrderTable152 $upgradeOrderTable152,
+        UpgradeShipmentTable $upgradeShipmentTable,
+        SalesShipmentGridColumns153 $salesShipmentGridColumns153,
+        UpgradeShipmentLabelTable $upgradeShipmentLabelTable,
+        InstallDownpartnerAttributes $installDownpartnerAttributes,
+        InstallPriorityAttribute $installPriorityAttribute,
+        ModifyConditionNameColumn $modifyConditionNameColumn,
+        InstallReturnBarcode $installReturnBarcode,
+        InstallReturnLabel $installReturnLabel,
+        InstallStatedAddressOnly $installStatedAddressOnly,
+        InstallSmartReturnBarcode $installSmartReturnBarcode,
+        InstallSmartReturnLabel $installSmartReturnLabel,
+        InstallIsSmartReturn $installIsSmartReturn,
+        InstallSmartReturnEmailSent $installSmartReturnEmailSent,
+        InstallOrderInsuredTier $installOrderInsuredTier,
+        InstallShipmentInsuredTier $installShipmentInsuredTier,
+        InstallOrderAcInformation $installOrderAcInformation,
+        InstallShipmentAcInformation $installShipmentAcInformation,
+        InstallReturnStatus $installReturnStatus
     ) {
         $this->upgradeSchemaObjects = [
             'v1.2.0' => [$salesShipmentGridColumns, $salesOrderGridColumns, $upgradeOrderTable, $installMatrixRateTable],
@@ -64,7 +93,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
         ];
     }
 
-    public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context)
+    public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context): void
     {
         $setup->startSetup();
 
@@ -140,13 +169,13 @@ class UpgradeSchema implements UpgradeSchemaInterface
     }
 
     /**
-     * @param $schemaObjects
-     * @param $setup
-     * @param $context
+     * @param AbstractColumnsInstaller[] $schemaObjects
      */
-    private function upgradeSchemas($schemaObjects, $setup, $context)
-    {
-        /** @var AbstractColumnsInstaller $schema */
+    private function upgradeSchemas(
+        array $schemaObjects,
+        SchemaSetupInterface $setup,
+        ModuleContextInterface $context
+    ): void {
         foreach ($schemaObjects as $schema) {
             $schema->install($setup, $context);
         }

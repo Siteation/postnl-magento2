@@ -100,7 +100,7 @@ class FirstDeliveryDate
      */
     private function validateCountry(Address $address)
     {
-        return in_array($address->getCountryId(), ['NL', 'BE']);
+        return in_array($address->getCountryId(), ['NL', 'BE'], true);
     }
 
     /**

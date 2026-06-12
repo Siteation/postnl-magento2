@@ -11,8 +11,7 @@ class InstallTablerateTable extends AbstractTableInstaller
     /**
      * @return void
      */
-    // @codingStandardsIgnoreLine
-    protected function defineTable()
+    protected function defineTable(): void
     {
         $this->addEntityId();
 

@@ -27,7 +27,7 @@ class Country
      */
     public function validate($country)
     {
-        if (!in_array($country, EpsCountries::ALL)) {
+        if (!in_array($country, EpsCountries::ALL, true)) {
             return $this->globalPackConfiguration->isEnabled();
         }
 

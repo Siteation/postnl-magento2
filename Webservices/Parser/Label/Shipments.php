@@ -94,7 +94,7 @@ class Shipments extends AbstractShipmentLabel
         if ($postnlShipment->isBoxablePackets() || $postnlShipment->isInternationalPacket()) {
             return false;
         }
-        return ($this->returnOptions->isReturnActive() && in_array($countryId, ['NL', 'BE']));
+        return ($this->returnOptions->isReturnActive() && in_array($countryId, ['NL', 'BE'], true));
     }
 
     public function isShipmentAndReturnEnabled(string $countryId): bool

@@ -3,13 +3,13 @@
 namespace TIG\PostNL\Setup\V152\Schema;
 
 use TIG\PostNL\Setup\AbstractColumnsInstaller;
+use Magento\Framework\DB\Ddl\Table;
 
 class SalesOrderGridColumns extends AbstractColumnsInstaller
 {
     const TABLE_NAME = 'sales_order_grid';
 
-    // @codingStandardsIgnoreLine
-    protected $columns = [
+    protected array $columns = [
         'tig_postnl_confirmed',
     ];
 
@@ -19,8 +19,7 @@ class SalesOrderGridColumns extends AbstractColumnsInstaller
     public function installTigPostnlConfirmedColumn()
     {
         return [
-            // @codingStandardsIgnoreLine
-            'type' => \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
+            'type' => Table::TYPE_BOOLEAN,
             'default' => 0,
             'nullable' => false,
             'comment' => 'PostNL Confirmed',

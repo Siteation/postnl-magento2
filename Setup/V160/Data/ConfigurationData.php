@@ -6,15 +6,13 @@ use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use TIG\PostNL\Setup\AbstractDataInstaller;
 
-// @codingStandardsIgnoreFile
 class ConfigurationData extends AbstractDataInstaller
 {
     /**
      * @param ModuleDataSetupInterface $setup
      * @param ModuleContextInterface   $context
      */
-    // @codingStandardsIgnoreLine
-    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context): void
     {
         $configPaths = [
             'tig_postnl/shippingoptions/pakjegemak_active'              => 'tig_postnl/post_offices/pakjegemak_active',

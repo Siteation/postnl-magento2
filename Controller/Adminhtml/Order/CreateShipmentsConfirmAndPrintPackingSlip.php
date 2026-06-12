@@ -102,7 +102,7 @@ class CreateShipmentsConfirmAndPrintPackingSlip extends LabelAbstract
      */
     private function handleOrderToShipment($order)
     {
-        if (!in_array($order->getState(), $this->stateToHandel)) {
+        if (!in_array($order->getState(), $this->stateToHandel, true)) {
             $this->messageManager->addWarningMessage(
                 //@codingStandardsIgnoreLine
                 __('Can not process order %1, because it is not new or in processing', $order->getIncrementId())

@@ -5,18 +5,17 @@ namespace TIG\PostNL\Setup\V182\Schema;
 use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
+use Magento\Framework\DB\Ddl\Table;
 
 class ModifyConditionNameColumn implements InstallSchemaInterface
 {
     const TABLE_NAME = 'tig_postnl_tablerate';
 
-    // @codingStandardsIgnoreLine
-    protected $columns = [
+    protected array $columns = [
         'condition_name'
     ];
 
-    // @codingStandardsIgnoreLine
-    public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
+    public function install(SchemaSetupInterface $setup, ModuleContextInterface $context): void
     {
         $setup->startSetup();
 
@@ -26,7 +25,7 @@ class ModifyConditionNameColumn implements InstallSchemaInterface
             'condition_name',
             'condition_name',
             [
-                'type'   => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'type'   => Table::TYPE_TEXT,
                 'length' => 30
             ]
         );

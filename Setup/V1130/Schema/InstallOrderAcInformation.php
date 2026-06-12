@@ -2,13 +2,13 @@
 namespace TIG\PostNL\Setup\V1130\Schema;
 
 use TIG\PostNL\Setup\AbstractColumnsInstaller;
+use Magento\Framework\DB\Ddl\Table;
 
 class InstallOrderAcInformation extends AbstractColumnsInstaller
 {
     const TABLE_NAME = 'tig_postnl_order';
 
-    // @codingStandardsIgnoreLine
-    protected $columns = [
+    protected array $columns = [
         'ac_information'
     ];
 
@@ -18,8 +18,7 @@ class InstallOrderAcInformation extends AbstractColumnsInstaller
     public function installAcInformationColumn()
     {
         return [
-            // @codingStandardsIgnoreLine
-            'type'     => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            'type'     => Table::TYPE_TEXT,
             'nullable' => true,
             'default'  => null,
             'comment'  => 'AC Information',

@@ -71,7 +71,7 @@ class SameDay implements DaysFilterInterface
                     $dateToCheck = $this->currentDate->date($nextDate)->format('d-m-Y');
 
                     $weeknumber = $this->postNLhelper->getDayOrWeekNumber($dateToCheck);
-                     if (in_array($weeknumber, $shipmentDays)) {
+                     if (in_array($weeknumber, $shipmentDays, true)) {
                          $checkDay = $nextDate;
                          break;
                      }

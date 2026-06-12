@@ -66,7 +66,7 @@ class CountryShipping
      */
     public function isShippingNLToEps($country)
     {
-        return (!in_array($country, ['BE', 'NL']) && $this->addressConfiguration->getCountry() == 'NL');
+        return (!in_array($country, ['BE', 'NL'], true) && $this->addressConfiguration->getCountry() === 'NL');
     }
 
     /**

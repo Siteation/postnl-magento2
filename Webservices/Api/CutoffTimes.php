@@ -42,6 +42,6 @@ class CutoffTimes
     {
         $shipmentDays = explode(',', $this->webshopSettings->getShipmentDays());
         $day = $day == '7' ? '0' : $day;
-        return in_array($day, $shipmentDays) ? '1' : '0';
+        return in_array($day, $shipmentDays, true) ? '1' : '0';
     }
 }

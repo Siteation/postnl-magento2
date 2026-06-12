@@ -120,11 +120,11 @@ class Rest
     private function addParameters(RestInterface $endpoint)
     {
         $params = $endpoint->getRequestData();
-        if ($endpoint->getMethod() == Request::METHOD_GET) {
+        if ($endpoint->getMethod() === Request::METHOD_GET) {
             $this->httpClient->setParameterGet($params);
         }
 
-        if ($endpoint->getMethod() == Request::METHOD_POST) {
+        if ($endpoint->getMethod() === Request::METHOD_POST) {
             $this->httpClient->setRawBody(json_encode($params));
         }
 

@@ -13,12 +13,14 @@ class InstallData implements InstallDataInterface
     public function __construct(
         \TIG\PostNL\Setup\V120\Data\CustomProductAttributes $customProductAttributes,
         \TIG\PostNL\Setup\V141\Data\ShippingDurationAttribute $shippingDurationAttribute,
-        \TIG\PostNL\Setup\V160\Data\ConfigurationData $configurationData
+        \TIG\PostNL\Setup\V160\Data\ConfigurationData $configurationData,
+        \TIG\PostNL\Setup\V191\Data\InstallDisableDeliveryDaysAttribute $installDisableDeliveryDaysAttribute
     ) {
         $this->installDataObjects = [
             $customProductAttributes,
             $shippingDurationAttribute,
-            $configurationData
+            $configurationData,
+            $installDisableDeliveryDaysAttribute,
         ];
     }
 

@@ -10,8 +10,7 @@ class PatchMatrixRateTable implements SchemaPatchInterface
 {
     const TABLE_NAME = 'tig_postnl_matrixrate';
 
-    /** @var ModuleDataSetupInterface */
-    private $moduleDataSetup;
+    private ModuleDataSetupInterface $moduleDataSetup;
 
     /**
      * @param ModuleDataSetupInterface $moduleDataSetup

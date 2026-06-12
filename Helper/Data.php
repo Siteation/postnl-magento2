@@ -71,7 +71,7 @@ class Data extends AbstractHelper
         $shippingMethod = $order->getShippingMethod();
         $allowedMethods = $this->webshop->getAllowedShippingMethods($order->getStoreId());
 
-        if (in_array($shippingMethod, $allowedMethods)) {
+        if (in_array($shippingMethod, $allowedMethods, true)) {
             return true;
         }
 
@@ -101,7 +101,7 @@ class Data extends AbstractHelper
     {
         $stamp = $this->dateTime->date();
         if ($date) {
-            list($date) = explode(' ', $date);
+            [$date] = explode(' ', $date);
             $stamp = $this->dateTime->date($date);
         }
 

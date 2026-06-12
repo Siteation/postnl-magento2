@@ -3,13 +3,13 @@
 namespace TIG\PostNL\Setup\V174\Schema;
 
 use \TIG\PostNL\Setup\AbstractColumnsInstaller;
+use Magento\Framework\DB\Ddl\Table;
 
 class InstallDownpartnerAttributes extends AbstractColumnsInstaller
 {
     const TABLE_NAME = 'tig_postnl_shipment';
     
-    // @codingStandardsIgnoreLine
-    protected $columns = [
+    protected array $columns = [
         'downpartner_id',
         'downpartner_location',
         'downpartner_barcode',
@@ -18,8 +18,7 @@ class InstallDownpartnerAttributes extends AbstractColumnsInstaller
     public function installDownpartnerIdColumn()
     {
         return [
-            // @codingStandardsIgnoreLine
-            'type'     => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            'type'     => Table::TYPE_TEXT,
             'length'   => 32,
             'nullable' => true,
             'default'  => null,
@@ -31,8 +30,7 @@ class InstallDownpartnerAttributes extends AbstractColumnsInstaller
     public function installDownpartnerLocationColumn()
     {
         return [
-            // @codingStandardsIgnoreLine
-            'type'     => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            'type'     => Table::TYPE_TEXT,
             'length'   => 16,
             'nullable' => true,
             'default'  => null,
@@ -44,8 +42,7 @@ class InstallDownpartnerAttributes extends AbstractColumnsInstaller
     public function installDownpartnerBarcodeColumn()
     {
         return [
-            // @codingStandardsIgnoreLine
-            'type'     => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            'type'     => Table::TYPE_TEXT,
             'length'   => 32,
             'nullable' => true,
             'default'  => null,

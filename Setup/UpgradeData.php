@@ -5,21 +5,28 @@ namespace TIG\PostNL\Setup;
 use Magento\Framework\Setup\UpgradeDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
+use TIG\PostNL\Setup\V120\Data\CustomProductAttributes;
+use TIG\PostNL\Setup\V141\Data\ShippingDurationAttribute;
+use TIG\PostNL\Setup\V160\Data\ConfigurationData;
+use TIG\PostNL\Setup\V172\Data\UpdateCustomProductAttributes;
+use TIG\PostNL\Setup\V181\Data\UpdateConfigData;
+use TIG\PostNL\Setup\V191\Data\InstallDisableDeliveryDaysAttribute;
+use TIG\PostNL\Setup\V194\Data\InstallMaximumQuantityLetterboxPackage;
+use TIG\PostNL\Setup\V1180\Data\InstallLetterboxPackages;
 
-// @codingStandardsIgnoreFile
 class UpgradeData implements UpgradeDataInterface
 {
     private array $upgradeDataObjects;
 
     public function __construct(
-        \TIG\PostNL\Setup\V120\Data\CustomProductAttributes $customProductAttributes,
-        \TIG\PostNL\Setup\V141\Data\ShippingDurationAttribute $shippingDurationAttribute,
-        \TIG\PostNL\Setup\V160\Data\ConfigurationData $configurationData,
-        \TIG\PostNL\Setup\V172\Data\UpdateCustomProductAttributes $updateCustomProductAttributes,
-        \TIG\PostNL\Setup\V181\Data\UpdateConfigData $updateConfigData,
-        \TIG\PostNL\Setup\V191\Data\InstallDisableDeliveryDaysAttribute $installDisableDeliveryDaysAttribute,
-        \TIG\PostNL\Setup\V194\Data\InstallMaximumQuantityLetterboxPackage $installMaximumQuantityLetterboxPackage,
-        \TIG\PostNL\Setup\V1180\Data\InstallLetterboxPackages $installLetterboxPackages
+        CustomProductAttributes $customProductAttributes,
+        ShippingDurationAttribute $shippingDurationAttribute,
+        ConfigurationData $configurationData,
+        UpdateCustomProductAttributes $updateCustomProductAttributes,
+        UpdateConfigData $updateConfigData,
+        InstallDisableDeliveryDaysAttribute $installDisableDeliveryDaysAttribute,
+        InstallMaximumQuantityLetterboxPackage $installMaximumQuantityLetterboxPackage,
+        InstallLetterboxPackages $installLetterboxPackages
     ) {
         $this->upgradeDataObjects = [
             'v1.2.0' => [$customProductAttributes],
@@ -33,7 +40,7 @@ class UpgradeData implements UpgradeDataInterface
         ];
     }
 
-    public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context): void
     {
         $setup->startSetup();
 
@@ -73,15 +80,13 @@ class UpgradeData implements UpgradeDataInterface
     }
 
     /**
-     * @param \TIG\PostNL\Setup\AbstractDataInstaller[] $installSchemaObjects
-     * @param ModuleDataSetupInterface                  $setup
-     * @param ModuleContextInterface                    $context
+     * @param AbstractDataInstaller[] $installSchemaObjects
      */
     private function upgradeData(
         array $installSchemaObjects,
         ModuleDataSetupInterface $setup,
         ModuleContextInterface $context
-    ) {
+    ): void {
         foreach ($installSchemaObjects as $installer) {
             $installer->install($setup, $context);
         }

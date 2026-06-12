@@ -31,6 +31,6 @@ class Multicolli
             return false;
         }
 
-        return in_array($country, ['NL', 'BE']);
+        return in_array($country, ['NL', 'BE'], true);
     }
 }

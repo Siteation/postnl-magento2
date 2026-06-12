@@ -3,13 +3,13 @@
 namespace TIG\PostNL\Setup\V131\Schema;
 
 use \TIG\PostNL\Setup\AbstractColumnsInstaller;
+use Magento\Framework\DB\Ddl\Table;
 
 class UpgradeShipmentTable extends AbstractColumnsInstaller
 {
     const TABLE_NAME = 'tig_postnl_shipment';
 
-    // @codingStandardsIgnoreLine
-    protected $columns = [
+    protected array $columns = [
         'ac_characteristic',
         'ac_option'
     ];
@@ -21,8 +21,7 @@ class UpgradeShipmentTable extends AbstractColumnsInstaller
     public function installAcCharacteristicColumn()
     {
         return [
-            // @codingStandardsIgnoreLine
-            'type'     => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            'type'     => Table::TYPE_TEXT,
             'length'   => 3,
             'nullable' => true,
             'default'  => null,
@@ -38,8 +37,7 @@ class UpgradeShipmentTable extends AbstractColumnsInstaller
     public function installAcOptionColumn()
     {
         return [
-            // @codingStandardsIgnoreLine
-            'type'     => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            'type'     => Table::TYPE_TEXT,
             'length'   => 3,
             'nullable' => true,
             'default'  => null,
