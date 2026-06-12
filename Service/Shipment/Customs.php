@@ -120,7 +120,7 @@ class Customs
 
         $this->applyTransactionData($type);
 
-        if (in_array($this->customs['ShipmentType'], $this->requiredInvoiceTypes)
+        if (in_array($this->customs['ShipmentType'], $this->requiredInvoiceTypes, true)
             || $this->customs['License'] == 'false'
             || $this->customs['Certificate'] == 'false'
         ) {

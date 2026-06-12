@@ -81,7 +81,7 @@ class CreateShipment
         $shippingMethod = $order->getShippingMethod();
         $allowedMethods = $this->webshopConfig->getAllowedShippingMethods($order->getStoreId());
 
-        if (in_array($shippingMethod, $allowedMethods)) {
+        if (in_array($shippingMethod, $allowedMethods, true)) {
             return true;
         }
 

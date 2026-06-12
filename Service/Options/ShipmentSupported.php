@@ -83,11 +83,11 @@ class ShipmentSupported
 
         $options[] = $this->getEpsProductOptions($country);
 
-        if (in_array($country, array_merge(PriorityCountries::GLOBALPACK, PriorityCountries::EPS))) {
+        if (in_array($country, array_merge(PriorityCountries::GLOBALPACK, PriorityCountries::EPS), true)) {
             $options[] = $this->productOptions->getPriorityOptions();
         }
 
-        if (!in_array($country, EpsCountries::ALL)) {
+        if (!in_array($country, EpsCountries::ALL, true)) {
             $options[] = $this->productOptions->getGlobalPackOptions();
         }
 
@@ -136,7 +136,7 @@ class ShipmentSupported
         }
 
         // To NL and other EU countries
-        if ($country !== 'BE' && in_array($country, EpsCountries::ALL)) {
+        if ($country !== 'BE' && in_array($country, EpsCountries::ALL, true)) {
             $options = $this->productOptions->getEpsProductOptions();
         }
 

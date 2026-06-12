@@ -46,7 +46,7 @@ class DaysOff implements DaysFilterInterface, DaysSkipInterface
         if ($daysOff) {
             $days = array_filter($days, function ($day) use ($daysOff) {
                 $number = $this->postNlHelper->getDayOrWeekNumber($day->Date);
-                return !in_array((string)$number, $daysOff);
+                return !in_array((string)$number, $daysOff, true);
             });
         }
 
@@ -59,7 +59,7 @@ class DaysOff implements DaysFilterInterface, DaysSkipInterface
         $daysOff = $this->shippingOptions->getDeliveryOff(self::XPATH_SHIPPING_OPTION_DELIVERY_DAYS_OFF);
         if ($daysOff) {
             $interval = new \DateInterval('P1D');
-            while (in_array($day->format('w'), $daysOff)) {
+            while (in_array($day->format('w'), $daysOff, true)) {
                 $day->add($interval);
                 $updated = true;
             }

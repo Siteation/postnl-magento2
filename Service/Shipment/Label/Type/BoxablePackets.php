@@ -76,7 +76,7 @@ class BoxablePackets extends EPS
      */
     public function isExcludedCountry($country)
     {
-        return in_array($country, $this->excludedCountries);
+        return in_array($country, $this->excludedCountries, true);
     }
 
     /**

@@ -54,7 +54,7 @@ class ProductDictionary
                 $product->setData(PostNLType::POSTNL_PRODUCT_TYPE, PostNLType::PRODUCT_TYPE_REGULAR);
             }
 
-            return in_array($product->getData(PostNLType::POSTNL_PRODUCT_TYPE), $postNLTypes);
+            return in_array($product->getData(PostNLType::POSTNL_PRODUCT_TYPE), $postNLTypes, true);
         });
     }
 

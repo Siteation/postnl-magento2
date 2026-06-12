@@ -87,7 +87,7 @@ class Domestic extends AbstractType implements TypeInterface
         // 4952 is the normal, but automatically falls back to 4944 - which doesn't exist in getBeProducts.
         $beProducts[] = 4944;
 
-        return (in_array($label->getProductCode(), $beProducts) && $label->getReturnLabel());
+        return (in_array($label->getProductCode(), $beProducts, true) && $label->getReturnLabel());
     }
 
     /**

@@ -70,6 +70,6 @@ class Options
     private function hasSaturdayAsShippingDay()
     {
         $shipmentDays = explode(',', $this->webshop->getShipmentDays());
-        return in_array('6', $shipmentDays);
+        return in_array('6', $shipmentDays, true);
     }
 }

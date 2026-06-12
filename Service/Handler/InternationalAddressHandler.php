@@ -82,7 +82,7 @@ class InternationalAddressHandler
                 $address['postalCode'],
                 $address['postalCode'] . ' ' . $address['cityName'],
                 $address['cityName'] . ' ' . $address['postalCode']
-            ])) {
+            ], true)) {
                 unset($strippedAddress[$i]);
                 continue;
             }

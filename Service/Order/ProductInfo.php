@@ -135,8 +135,8 @@ class ProductInfo
         }
 
         // Check if the country is not an ESP country or BE/NL and if it is Global Pack
-        if (!in_array($country, EpsCountries::ALL)
-            && !in_array($country, ['BE', 'NL']) && (
+        if (!in_array($country, EpsCountries::ALL, true)
+            && !in_array($country, ['BE', 'NL'], true) && (
                 $type === strtolower(static::SHIPMENT_TYPE_GP) || $type === static::SHIPMENT_TYPE_AUTO
             )) {
             $this->setGlobalPackOption($country);
@@ -159,7 +159,7 @@ class ProductInfo
 
         // EPS also uses delivery options in some cases. For Daytime there is no default EPS option.
         if ((empty($type) || $type === strtolower(static::SHIPMENT_TYPE_EPS) || $option == static::OPTION_DAYTIME)
-            && !in_array($country, ['BE', 'NL'])) {
+            && !in_array($country, ['BE', 'NL'], true)) {
             $this->setEpsOption($address, $country);
 
             return $this->getInfo();
@@ -260,7 +260,7 @@ class ProductInfo
         $options          = $this->productOptionsFinder->getEpsProductOptions($address);
         $firstOption      = array_shift($options);
         $globalPackOption = $this->productOptionsFinder->getDefaultGPOption()['value'];
-        if (in_array($globalPackOption, $firstOption)) {
+        if (in_array($globalPackOption, $firstOption, true)) {
             $this->setGlobalPackOption();
 
             return;
@@ -283,7 +283,7 @@ class ProductInfo
 
     private function isEpsCountry($country)
     {
-        if (!in_array($country, EpsCountries::ALL)) {
+        if (!in_array($country, EpsCountries::ALL, true)) {
             return false;
         }
 

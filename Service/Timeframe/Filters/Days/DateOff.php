@@ -34,7 +34,7 @@ class DateOff implements DaysFilterInterface, DaysSkipInterface
         $dates = $this->shippingOptions->getDeliveryOff();
         if ($dates) {
             $days = array_filter($days, function ($day) use ($dates) {
-                return !in_array($day->Date, $dates);
+                return !in_array($day->Date, $dates, true);
             });
         }
 

@@ -54,7 +54,7 @@ class AttributeValues
         $product = $this->productRepository->get($item->getSku(), false, $storeId);
         $attributeValue = $product->getDataUsingMethod($attributeCode);
 
-        if (empty($attributeValue) && !in_array($attributeCode, $this->hasFallback)) {
+        if (empty($attributeValue) && !in_array($attributeCode, $this->hasFallback, true)) {
             // @codingStandardsIgnoreLine
             throw new PostNLException(
                 __('Missing customs %1 attribute on product %2', [$attributeCode, $item->getSku()]),
