@@ -203,7 +203,7 @@ class SentDate extends AbstractEndpoint
     private function getDeliveryDate($address, PostNLOrder $postNLOrder)
     {
         $deliveryDate = $postNLOrder->getDeliveryDate();
-        if ($deliveryDate == null) {
+        if ($deliveryDate === null) {
             return $this->dateFallback->get();
         }
 

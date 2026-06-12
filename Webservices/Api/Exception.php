@@ -124,7 +124,7 @@ class Exception extends PostNLException
      */
     private function addXml($message, $xml)
     {
-        if ($xml === null || $xml == '') {
+        if ($xml === null || $xml === '') {
             return;
         }
 

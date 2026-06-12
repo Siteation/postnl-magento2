@@ -39,13 +39,13 @@ class Uninstall implements UninstallInterface
         while (true) {
             $handle = fopen("php://stdin", "r");
             $line = strtolower(trim(fgets($handle)));
-            if ($line == 'yes' || $line == 'y') {
+            if ($line === 'yes' || $line === 'y') {
                 $this->removeTables($setup);
 
                 break;
             }
 
-            if ($line == 'n' || $line == 'no') {
+            if ($line === 'n' || $line === 'no') {
                 break;
             }
 
