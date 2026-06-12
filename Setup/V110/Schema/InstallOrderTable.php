@@ -9,12 +9,7 @@ class InstallOrderTable extends AbstractTableInstaller
 {
     const TABLE_NAME = 'tig_postnl_order';
 
-    /**
-     * @return void
-     * @codingStandardsIgnoreLine
-     */
-    // @codingStandardsIgnoreLine
-    protected function defineTable()
+    protected function defineTable(): void
     {
         $this->addEntityId();
         $this->addInt('order_id', 'Order ID', true, true);
