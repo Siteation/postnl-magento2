@@ -55,7 +55,7 @@ class Address extends Action
         $this->addressCheckService->updateRequestData($params);
 
         $result          = $this->addressCheckService->call();
-        list($statusCode, $formattedResult) = $this->handler->convertResponse($result, $params);
+        [$statusCode, $formattedResult] = $this->handler->convertResponse($result, $params);
 
         return $this->returnJson($statusCode, $formattedResult);
     }
