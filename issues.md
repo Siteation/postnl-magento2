@@ -107,8 +107,12 @@ The constructor is documented as `UpdateDisableDeliveryDaysAttribute constructor
 
 ## Code Quality
 
-### 10. `@codingStandardsIgnoreLine` suppressions should be reviewed
+### 10. `@codingStandardsIgnoreLine` suppressions should be reviewed **FIXED (Setup/)**
 Several files suppress coding-standards checks with `// @codingStandardsIgnoreLine` (e.g. `Setup/V141/Data/ShippingDurationAttribute.php:30`). During the overhaul these should be reviewed and either the underlying issue fixed or the suppression scoped more precisely.
+
+**Fix applied:** The `Setup/` directory now has zero `@codingStandards` suppressions. Root cause was untyped properties and missing return type declarations on the three abstract installer base classes (`AbstractTableInstaller`, `AbstractColumnsInstaller`, `AbstractDataInstaller`). Adding typed properties (`?Table`, `?SchemaSetupInterface`, `array`, etc.) and return types (`: void`, `: bool`, `: string`, `: Table`, `: AdapterInterface`) to those base classes cascaded to clean all 51 subclasses and orchestrating files (`UpgradeData`, `UpgradeSchema`, `Uninstall`). FQCNs (`\Magento\Framework\DB\Ddl\Table::`) in column-definition arrays were replaced with proper `use` imports.
+
+**Remaining (out of scope for this issue):** ~480 suppressions exist across `Service/`, `Config/`, `Model/`, `Controller/`, `Block/`, `Helper/`. Many are for Magento underscore-convention lifecycle methods (`_construct()`, `$_template`) which are legitimate. The fixable ones (untyped Block properties, Api method parameter types) are tracked as a follow-up cleanup task.
 
 ---
 
