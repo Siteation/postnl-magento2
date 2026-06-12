@@ -21,7 +21,6 @@ class UpdateDefaultValueForDirationAttribute implements DataPatchInterface
     private $moduleDataSetup;
 
     /**
-     * UpdateDisableDeliveryDaysAttribute constructor.
      * @param EavSetupFactory          $eavSetupFactory
      * @param ModuleDataSetupInterface $moduleDataSetup
      */
