@@ -32,7 +32,7 @@ Both patches call `EavSetup::updateAttribute()` against attributes that may not 
 
 ## PHP 8.1–8.5 Compatibility
 
-### 3. `in_array()` called without strict-type flag (51 occurrences)
+### 3. `in_array()` called without strict-type flag (51 occurrences) **FIXED**
 `in_array($needle, $haystack)` uses loose comparison by default. Since PHP 8.0 type juggling rules changed (e.g. `0 == "string"` is now `false`), and PHP 8.1 deprecated implicit int→string coercions, all calls that compare typed values should pass `true` as third argument.
 
 The single **already-fixed** case in `ResetBEDefaultOption.php` compared integer option IDs against values that could be returned as strings from config — a concrete type-coercion risk.
@@ -54,7 +54,7 @@ The single **already-fixed** case in `ResetBEDefaultOption.php` compared integer
 
 ---
 
-### 5. `list()` construct should use short array destructuring (2 remaining occurrences)
+### 5. `list()` construct should use short array destructuring (2 remaining occurrences) **FIXED**
 `list()` still works in PHP 8.x but is considered legacy style. Prefer `[]` destructuring for consistency with modern PHP.
 
 **Files:**
@@ -65,7 +65,7 @@ The single **already-fixed** case in `ResetBEDefaultOption.php` compared integer
 
 ---
 
-### 6. Untyped class properties throughout Setup patches
+### 6. Untyped class properties throughout Setup patches **FIXED**
 All Setup patch classes declare injected dependencies with `@var` docblocks but no native type declarations. PHP 7.4+ supports typed properties, which eliminates the `@var` noise and catches injection mismatches at runtime.
 
 **Example pattern to change:**
@@ -82,7 +82,7 @@ Affects all files under `Setup/Patch/Data/` and `Setup/Patch/Schema/`.
 
 ---
 
-### 7. `\Zend_Db_Exception` referenced in `@throws` docblocks
+### 7. `\Zend_Db_Exception` referenced in `@throws` docblocks **FIXED**
 **File:** `Setup/AbstractTableInstaller.php` (multiple methods), `Setup/AbstractColumnsInstaller.php:91`
 
 `Zend_Db_Exception` is from Zend Framework 1, which was removed in Magento 2.4.6. These `@throws` annotations are stale and could mislead developers — replace with `\Exception` or the actual Laminas/Magento equivalent.
@@ -98,7 +98,7 @@ The module uses both `InstallData`/`UpgradeData` (deprecated since Magento 2.3) 
 
 ---
 
-### 9. Misleading copy-pasted constructor docblock
+### 9. Misleading copy-pasted constructor docblock **FIXED**
 **File:** `Setup/Patch/Data/UpdateDefaultValueForDirationAttribute.php:24`
 
 The constructor is documented as `UpdateDisableDeliveryDaysAttribute constructor.` — clearly copy-pasted from the sibling class.
@@ -112,7 +112,7 @@ Several files suppress coding-standards checks with `// @codingStandardsIgnoreLi
 
 ---
 
-### 11. Loose equality comparisons (`==`/`!=`) in web-service layer
+### 11. Loose equality comparisons (`==`/`!=`) in web-service layer **FIXED**
 Several files in `Webservices/` use loose equality where strict equality is safe and more explicit:
 - `Webservices/Rest.php` — HTTP method comparisons
 - `Webservices/Endpoints/SentDate.php:206` — `$deliveryDate == null` should be `=== null`
@@ -121,7 +121,7 @@ Several files in `Webservices/` use loose equality where strict equality is safe
 
 ---
 
-### 12. `ResetBEDefaultOption::$removedOptions` is untyped
+### 12. `ResetBEDefaultOption::$removedOptions` is untyped **FIXED**
 ```php
 private $removedOptions = [4944, 4952, ...];
 ```
