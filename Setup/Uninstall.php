@@ -8,19 +8,10 @@ use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 use Magento\Framework\Setup\UninstallInterface;
 
-// @codingStandardsIgnoreFile
 class Uninstall implements UninstallInterface
 {
-    /**
-     * @var EavSetupFactory
-     */
-    private $eavSetupFactory;
+    private EavSetupFactory $eavSetupFactory;
 
-    /**
-     * Uninstall constructor.
-     *
-     * @param EavSetupFactory $eavSetupFactory
-     */
     public function __construct(EavSetupFactory $eavSetupFactory)
     {
         $this->eavSetupFactory = $eavSetupFactory;
@@ -29,7 +20,7 @@ class Uninstall implements UninstallInterface
     /**
      * @inheritDoc
      */
-    public function uninstall(SchemaSetupInterface $setup, ModuleContextInterface $context)
+    public function uninstall(SchemaSetupInterface $setup, ModuleContextInterface $context): void
     {
         $setup->startSetup();
 
@@ -57,10 +48,7 @@ class Uninstall implements UninstallInterface
         $setup->endSetup();
     }
 
-    /**
-     * @param SchemaSetupInterface $setup
-     */
-    private function removeTables($setup)
+    private function removeTables(SchemaSetupInterface $setup): void
     {
         echo "Removing tables...\n";
         $connection = $setup->getConnection();
@@ -73,7 +61,7 @@ class Uninstall implements UninstallInterface
         echo "Finished removing tables.\n";
     }
 
-    private function removeEavAttributes()
+    private function removeEavAttributes(): void
     {
         echo "Removing PostNL settings from catalog...\n";
         $eavSetup = $this->eavSetupFactory->create();
@@ -86,10 +74,7 @@ class Uninstall implements UninstallInterface
         echo "Finished removing PostNL settings from catalog.\n";
     }
 
-    /**
-     * @param SchemaSetupInterface $setup
-     */
-    private function removeConfigSettings($setup)
+    private function removeConfigSettings(SchemaSetupInterface $setup): void
     {
         echo "Removing PostNL configs...\n";
         $connection = $setup->getConnection();
