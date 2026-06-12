@@ -8,48 +8,25 @@ use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 
-/**
- * @codingStandardsIgnoreStart
- */
 abstract class AbstractTableInstaller implements InstallSchemaInterface
 {
     const TABLE_NAME = null;
 
-    /**
-     * @var Table
-     */
-    protected $table;
+    protected ?Table $table = null;
+    protected ?SchemaSetupInterface $setup = null;
 
-    /**
-     * @var SchemaSetupInterface
-     */
-    protected $setup;
-
-    /**
-     * Installs DB schema for a module
-     *
-     * @param SchemaSetupInterface   $setup
-     * @param ModuleContextInterface $context
-     *
-     * @return void
-     */
-    public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
+    public function install(SchemaSetupInterface $setup, ModuleContextInterface $context): void
     {
-        $installer = $setup;
-
         $this->setup = $setup;
 
-        if (!$installer->tableExists(static::TABLE_NAME)) {
+        if (!$setup->tableExists(static::TABLE_NAME)) {
             $this->createTable();
             $this->defineTable();
             $this->saveTable();
         }
     }
 
-    /**
-     * @return Table
-     */
-    protected function createTable()
+    protected function createTable(): Table
     {
         $connection = $this->setup->getConnection();
         $this->table = $connection->newTable($this->setup->getTable(static::TABLE_NAME));
@@ -57,15 +34,10 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
         return $this->table;
     }
 
-    /**
-     * @return void
-     */
-    abstract protected function defineTable();
+    abstract protected function defineTable(): void;
 
-    /**
-     * @throws \Exception
-     */
-    protected function addEntityId()
+    /** @throws \Exception */
+    protected function addEntityId(): void
     {
         $this->table->addColumn(
             'entity_id',
@@ -81,15 +53,8 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
         );
     }
 
-    /**
-     * @param      $name
-     * @param      $comment
-     * @param bool $nullable
-     * @param null $default
-     *
-     * @throws \Exception
-     */
-    protected function addDate($name, $comment, $nullable = true, $default = null)
+    /** @throws \Exception */
+    protected function addDate(string $name, string $comment, bool $nullable = true, $default = null): void
     {
         $this->table->addColumn(
             $name,
@@ -106,15 +71,8 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
         );
     }
 
-    /**
-     * @param      $name
-     * @param      $comment
-     * @param bool $nullable
-     * @param null $default
-     *
-     * @throws \Exception
-     */
-    protected function addTimestamp($name, $comment, $nullable = true, $default = null)
+    /** @throws \Exception */
+    protected function addTimestamp(string $name, string $comment, bool $nullable = true, $default = null): void
     {
         $this->table->addColumn(
             $name,
@@ -131,17 +89,14 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
         );
     }
 
-    /**
-     * @param      $name
-     * @param      $comment
-     * @param bool $nullable
-     * @param bool $unsigned
-     * @param null $default
-     *
-     * @throws \Exception
-     */
-    protected function addInt($name, $comment, $nullable = true, $unsigned = false, $default = null)
-    {
+    /** @throws \Exception */
+    protected function addInt(
+        string $name,
+        string $comment,
+        bool $nullable = true,
+        bool $unsigned = false,
+        $default = null
+    ): void {
         $this->table->addColumn(
             $name,
             Table::TYPE_INTEGER,
@@ -157,20 +112,13 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
         );
     }
 
-    /**
-     * @param        $ref_table
-     * @param        $ref_table_field
-     * @param        $table
-     * @param        $table_field
-     * @param string $onDelete
-     */
     protected function addForeignKey(
-        $ref_table,
-        $ref_table_field,
-        $table,
-        $table_field,
-        $onDelete = Table::ACTION_CASCADE
-    ) {
+        string $ref_table,
+        string $ref_table_field,
+        string $table,
+        string $table_field,
+        string $onDelete = Table::ACTION_CASCADE
+    ): void {
         $this->table->addForeignKey(
             $this->setup->getFkName($table, $table_field, $ref_table, $ref_table_field),
             $table_field,
@@ -180,13 +128,8 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
         );
     }
 
-    /**
-     * @param array  $fields
-     * @param string $indexType
-     *
-     * @throws \Exception
-     */
-    protected function addIndex($fields, $indexType = AdapterInterface::INDEX_TYPE_UNIQUE)
+    /** @throws \Exception */
+    protected function addIndex(array $fields, string $indexType = AdapterInterface::INDEX_TYPE_UNIQUE): void
     {
         $this->table->addIndex(
             $this->setup->getIdxName($this->table->getName(), $fields, $indexType),
@@ -195,17 +138,14 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
         );
     }
 
-    /**
-     * @param      $name
-     * @param      $comment
-     * @param int  $length
-     * @param bool $nullable
-     * @param null $default
-     *
-     * @throws \Exception
-     */
-    protected function addText($name, $comment, $length = 255, $nullable = true, $default = null)
-    {
+    /** @throws \Exception */
+    protected function addText(
+        string $name,
+        string $comment,
+        int $length = 255,
+        bool $nullable = true,
+        $default = null
+    ): void {
         $this->table->addColumn(
             $name,
             Table::TYPE_TEXT,
@@ -221,15 +161,8 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
         );
     }
 
-    /**
-     * @param      $name
-     * @param      $comment
-     * @param bool $nullable
-     * @param null $default
-     *
-     * @throws \Exception
-     */
-    protected function addBlob($name, $comment, $nullable = true, $default = null)
+    /** @throws \Exception */
+    protected function addBlob(string $name, string $comment, bool $nullable = true, $default = null): void
     {
         $this->table->addColumn(
             $name,
@@ -246,17 +179,14 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
         );
     }
 
-    /**
-     * @param        $name
-     * @param        $comment
-     * @param string $size
-     * @param bool   $nullable
-     * @param null   $default
-     *
-     * @throws \Exception
-     */
-    protected function addDecimal($name, $comment, $size = '15,4', $nullable = true, $default = null)
-    {
+    /** @throws \Exception */
+    protected function addDecimal(
+        string $name,
+        string $comment,
+        string $size = '15,4',
+        bool $nullable = true,
+        $default = null
+    ): void {
         $this->table->addColumn(
             $name,
             Table::TYPE_DECIMAL,
@@ -272,16 +202,8 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
         );
     }
 
-    /**
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface
-     */
-    protected function saveTable()
+    protected function saveTable(): AdapterInterface
     {
-        $connection = $this->setup->getConnection();
-
-        return $connection->createTable($this->table);
+        return $this->setup->getConnection()->createTable($this->table);
     }
 }
-/**
- * @codingStandardsIgnoreEnd
- */

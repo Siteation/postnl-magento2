@@ -13,46 +13,16 @@ abstract class AbstractColumnsInstaller implements InstallSchemaInterface
 {
     const TABLE_NAME = null;
 
-    /**
-     * @var Table
-     */
-    // @codingStandardsIgnoreLine
-    protected $table;
+    protected ?Table $table = null;
+    protected ?SchemaSetupInterface $setup = null;
+    protected array $columns = [];
+    protected ?AdapterInterface $connection = null;
+    protected ?array $columnsList = null;
 
     /**
-     * @var SchemaSetupInterface
-     */
-    // @codingStandardsIgnoreLine
-    protected $setup;
-
-    /**
-     * @var array
-     */
-    // @codingStandardsIgnoreLine
-    protected $columns = [];
-
-    /**
-     * @var AdapterInterface
-     */
-    // @codingStandardsIgnoreLine
-    protected $connection;
-
-    /**
-     * @var null
-     */
-    // @codingStandardsIgnoreLine
-    protected $columnsList = null;
-
-    /**
-     * Installs DB schema for a module
-     *
-     * @param SchemaSetupInterface   $setup
-     * @param ModuleContextInterface $context
-     *
      * @throws LocalizedException
      */
-    // @codingStandardsIgnoreLine
-    public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
+    public function install(SchemaSetupInterface $setup, ModuleContextInterface $context): void
     {
         $this->setup = $setup;
         $this->connection = $setup->getConnection();
@@ -67,8 +37,7 @@ abstract class AbstractColumnsInstaller implements InstallSchemaInterface
         }
     }
 
-    // @codingStandardsIgnoreLine
-    protected function installColumn($columnName)
+    protected function installColumn(string $columnName): void
     {
         if ($this->columnExists($columnName)) {
             return;
@@ -87,24 +56,14 @@ abstract class AbstractColumnsInstaller implements InstallSchemaInterface
         );
     }
 
-    /**
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface
-     */
-    // @codingStandardsIgnoreLine
-    protected function saveTable()
+    protected function saveTable(): AdapterInterface
     {
         $connection = $this->setup->getConnection();
 
         return $connection->createTable($this->table);
     }
 
-    /**
-     * @param $columnName
-     *
-     * @return bool
-     */
-    // @codingStandardsIgnoreLine
-    protected function columnExists($columnName)
+    protected function columnExists(string $columnName): bool
     {
         if ($this->columnsList === null) {
             $this->columnsList = $this->connection->describeTable($this->table);
@@ -115,13 +74,8 @@ abstract class AbstractColumnsInstaller implements InstallSchemaInterface
 
     /**
      * Converts this_column_name to installThisColumnNameColumn
-     *
-     * @param $columnName
-     *
-     * @return mixed|string
      */
-    // @codingStandardsIgnoreLine
-    protected function getMethodName($columnName)
+    protected function getMethodName(string $columnName): string
     {
         $methodName = str_replace('_', ' ', $columnName);
         $methodName = ucwords($methodName);
