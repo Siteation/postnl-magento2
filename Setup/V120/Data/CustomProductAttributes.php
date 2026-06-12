@@ -31,8 +31,7 @@ class CustomProductAttributes extends AbstractDataInstaller
      *
      * @return void
      */
-    // @codingStandardsIgnoreLine
-    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context): void
     {
         /** @var EavSetup $eavSetup */
         $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
