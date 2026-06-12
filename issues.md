@@ -149,5 +149,7 @@ Should be declared as `private array $removedOptions`.
 
 ## Tests
 
-### 13. No test coverage for fresh-install data patch path
+### 13. No test coverage for fresh-install data patch path ✓ FIXED
 The bugs in issues #1 and #2 were not caught because integration tests only cover the upgrade path (existing installation). A test that bootstraps the module from scratch (no prior `setup_module` entry) should be added.
+
+**Fixed**: Added unit tests for all 10 `DataPatchInterface` classes in `Test/Unit/Setup/Patch/Data/`. Each test covers the fresh-install (attribute absent) and idempotent re-run (attribute already exists) paths, plus `getDependencies()` and `getAliases()` contracts.
