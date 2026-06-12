@@ -8,25 +8,11 @@ use Magento\Eav\Setup\EavSetupFactory;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 
-/**
- * Class \Magento\Bundle\Setup\Patch\ApplyAttributesUpdate
- */
 class UpdateDisableDeliveryDaysAttribute implements DataPatchInterface
 {
-    /**
-     * @var EavSetupFactory
-     */
-    private $eavSetupFactory;
-    /**
-     * @var ModuleDataSetupInterface
-     */
-    private $moduleDataSetup;
+    private EavSetupFactory $eavSetupFactory;
+    private ModuleDataSetupInterface $moduleDataSetup;
 
-    /**
-     * UpdateDisableDeliveryDaysAttribute constructor.
-     * @param EavSetupFactory          $eavSetupFactory
-     * @param ModuleDataSetupInterface $moduleDataSetup
-     */
     public function __construct(
         EavSetupFactory $eavSetupFactory,
         ModuleDataSetupInterface $moduleDataSetup

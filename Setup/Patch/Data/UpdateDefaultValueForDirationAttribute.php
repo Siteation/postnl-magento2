@@ -11,14 +11,8 @@ use TIG\PostNL\Config\Provider\ShippingDuration;
 
 class UpdateDefaultValueForDirationAttribute implements DataPatchInterface
 {
-    /**
-     * @var EavSetupFactory
-     */
-    private $eavSetupFactory;
-    /**
-     * @var ModuleDataSetupInterface
-     */
-    private $moduleDataSetup;
+    private EavSetupFactory $eavSetupFactory;
+    private ModuleDataSetupInterface $moduleDataSetup;
 
     /**
      * @param EavSetupFactory          $eavSetupFactory
