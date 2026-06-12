@@ -55,7 +55,14 @@ class UpdateDefaultValueForDirationAttribute implements DataPatchInterface
     public function apply()
     {
         /** @var EavSetup $eavSetup */
-        $eavSetup  = $this->eavSetupFactory->create(['setup' => $this->moduleDataSetup]);
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $this->moduleDataSetup]);
+
+        // Guard against fresh installs where InstallData has not yet run (declarative
+        // patches can execute before old-style InstallData in some Magento versions).
+        if ($eavSetup->getAttributeId(Product::ENTITY, 'postnl_shipping_duration') === false) {
+            return $this;
+        }
+
         $eavSetup->updateAttribute(
             Product::ENTITY,
             'postnl_shipping_duration',
