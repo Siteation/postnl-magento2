@@ -3,13 +3,13 @@
 namespace TIG\PostNL\Setup\V110\Schema;
 
 use TIG\PostNL\Setup\AbstractColumnsInstaller;
+use Magento\Framework\DB\Ddl\Table;
 
 class SalesOrderGridColumns extends AbstractColumnsInstaller
 {
     const TABLE_NAME = 'sales_order_grid';
 
-    // @codingStandardsIgnoreLine
-    protected $columns = [
+    protected array $columns = [
         'tig_postnl_ship_at',
     ];
 
@@ -19,8 +19,7 @@ class SalesOrderGridColumns extends AbstractColumnsInstaller
     public function installTigPostnlShipAtColumn()
     {
         return [
-            // @codingStandardsIgnoreLine
-            'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            'type' => Table::TYPE_TEXT,
             'length' => 255,
             'nullable' => true,
             'default' => null,

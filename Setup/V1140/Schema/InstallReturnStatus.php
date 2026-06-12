@@ -3,6 +3,7 @@
 namespace TIG\PostNL\Setup\V1140\Schema;
 
 use TIG\PostNL\Setup\AbstractColumnsInstaller;
+use Magento\Framework\DB\Ddl\Table;
 
 class InstallReturnStatus extends AbstractColumnsInstaller
 {
@@ -15,7 +16,7 @@ class InstallReturnStatus extends AbstractColumnsInstaller
     public function installReturnStatusColumn(): array
     {
         return [
-            'type'     => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            'type'     => Table::TYPE_INTEGER,
             'default'  => 0,
             'nullable' => false,
             'comment'  => 'Return Status'
