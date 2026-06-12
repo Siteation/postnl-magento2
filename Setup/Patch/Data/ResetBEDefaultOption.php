@@ -74,7 +74,7 @@ class ResetBEDefaultOption implements DataPatchInterface
         $savedOptions = $this->storesConfig->getStoresConfigByPath(self::DEFAULT_BE_OPTION_PATH);
 
         array_walk($savedOptions, function ($option, $scopeId) {
-            if (in_array($option, $this->removedOptions)) {
+            if (in_array($option, $this->removedOptions, true)) {
                 $this->configWriter->deleteConfig(
                     self::DEFAULT_BE_OPTION_PATH
                 );
