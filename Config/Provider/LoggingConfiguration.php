@@ -27,6 +27,6 @@ class LoggingConfiguration extends AbstractConfigProvider
 
         $logTypes = explode(',', (string)$this->getLoggingTypes());
 
-        return in_array($level, $logTypes);
+        return in_array($level, $logTypes, true);
     }
 }

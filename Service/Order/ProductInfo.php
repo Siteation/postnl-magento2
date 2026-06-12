@@ -239,7 +239,7 @@ class ProductInfo
         $epsCode = $this->productOptionsConfiguration->getDefaultEpsProductOption();
         $EUPriorityCountries = array_diff(PriorityCountries::EPS, EpsCountries::ALL);
 
-        if (in_array($country, $EUPriorityCountries)
+        if (in_array($country, $EUPriorityCountries, true)
             && $this->isPriorityProduct($epsCode)
         ) {
             return true;

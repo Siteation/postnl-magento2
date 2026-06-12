@@ -170,7 +170,7 @@ class SetDefaultData implements ObserverInterface
      */
     private function canUpdate($current, $new, $option)
     {
-        if (!in_array($option, $this->shouldUpdateByOption)) {
+        if (!in_array($option, $this->shouldUpdateByOption, true)) {
             return false;
         }
 

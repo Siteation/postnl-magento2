@@ -43,7 +43,7 @@ class CollectionByAttributeValue
     {
         $products = $this->collectionByItems->get($items);
         return array_filter($products, function (ProductInterface $product) use ($code, $matchedValue) {
-            return in_array($product->getData($code), $matchedValue);
+            return in_array($product->getData($code), $matchedValue, true);
         });
     }
 
