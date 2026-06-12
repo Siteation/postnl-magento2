@@ -21,33 +21,25 @@ class UpdateDisableDeliveryDaysAttribute implements DataPatchInterface
         $this->moduleDataSetup = $moduleDataSetup;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function getDependencies()
+    public static function getDependencies(): array
+    {
+        return [
+            AddDisableDeliveryDaysAttribute::class,
+        ];
+    }
+
+    public function getAliases(): array
     {
         return [];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getAliases()
+    public function apply(): self
     {
-        return [];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function apply()
-    {
-        /** @var EavSetup $eavSetup */
         $eavSetup = $this->eavSetupFactory->create(['setup' => $this->moduleDataSetup]);
 
-        // Guard against fresh installs where the attribute may not exist yet.
-        // postnl_disable_delivery_days is created by InstallData/UpgradeData v1.9.1
-        // which can run after declarative patches on some Magento versions.
+        // Guard: AddDisableDeliveryDaysAttribute is now a declared dependency, but
+        // on an existing install that already ran the old InstallData the attribute
+        // exists and the dependency patch will have exited early. Either way we check.
         if ($eavSetup->getAttributeId(Product::ENTITY, 'postnl_disable_delivery_days') === false) {
             return $this;
         }

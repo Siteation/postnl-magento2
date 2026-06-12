@@ -26,26 +26,19 @@ class UpdateDefaultValueForDirationAttribute implements DataPatchInterface
         $this->moduleDataSetup = $moduleDataSetup;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function getDependencies()
+    public static function getDependencies(): array
+    {
+        return [
+            AddShippingDurationAttribute::class,
+        ];
+    }
+
+    public function getAliases(): array
     {
         return [];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getAliases()
-    {
-        return [];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function apply()
+    public function apply(): self
     {
         /** @var EavSetup $eavSetup */
         $eavSetup = $this->eavSetupFactory->create(['setup' => $this->moduleDataSetup]);
