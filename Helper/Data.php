@@ -101,7 +101,7 @@ class Data extends AbstractHelper
     {
         $stamp = $this->dateTime->date();
         if ($date) {
-            list($date) = explode(' ', $date);
+            [$date] = explode(' ', $date);
             $stamp = $this->dateTime->date($date);
         }
 
