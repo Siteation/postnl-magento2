@@ -91,10 +91,24 @@ Affects all files under `Setup/Patch/Data/` and `Setup/Patch/Schema/`.
 
 ## Setup Architecture
 
-### 8. Mixed old-style and declarative setup — should fully migrate to declarative patches
+### 8. Mixed old-style and declarative setup — should fully migrate to declarative patches **FIXED**
 The module uses both `InstallData`/`UpgradeData` (deprecated since Magento 2.3) and declarative `DataPatch` classes side by side. This is the root cause of the ordering bugs above.
 
-**Recommendation:** Convert all `Setup/V*/Data/*.php` installers into proper `Setup/Patch/Data/*.php` patch classes with explicit `getDependencies()` chains. The old-style scripts can then be removed. This is a significant but well-defined refactor.
+**Fix applied:** All eight `V*/Data/*.php` old-style installers have been converted to `DataPatchInterface` classes under `Setup/Patch/Data/`. `InstallData.php`, `UpgradeData.php`, `AbstractDataInstaller.php`, and all `V*/Data/` directories have been deleted.
+
+New patch classes with their dependency chains:
+- `AddCustomProductAttributes` → no deps (adds `postnl_product_type`, `postnl_parcel_count`, `postnl_parcel_volume`)
+- `AddShippingDurationAttribute` → depends on `AddCustomProductAttributes`
+- `MigrateConfigurationPaths` → no deps (renames 30 config paths)
+- `UpdateCustomProductAttributeDefaults` → depends on `AddCustomProductAttributes` (changes default to 0)
+- `RemoveEveningBeConfig` → depends on `MigrateConfigurationPaths` (deletes superseded BE keys)
+- `AddDisableDeliveryDaysAttribute` → depends on `AddCustomProductAttributes`
+- `AddMaxQtyLetterboxPackageAttribute` → depends on `AddCustomProductAttributes`
+- `AddInternationalLetterboxAttributes` → depends on `AddMaxQtyLetterboxPackageAttribute`
+
+Existing patches updated: `UpdateDefaultValueForDirationAttribute` and `UpdateDisableDeliveryDaysAttribute` now declare their attribute-creation patches as explicit `getDependencies()`, replacing the runtime guard with a proper ordering guarantee.
+
+All new patches are idempotent: EAV patches check `getAttributeId() !== false` before calling `addAttribute()`, config patches use naturally idempotent UPDATE/DELETE.
 
 ---
 
