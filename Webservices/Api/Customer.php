@@ -130,7 +130,7 @@ class Customer
     {
         $shippingAddress = $shipment->getShippingAddress();
 
-        if (in_array($shippingAddress->getCountryId(), ['NL', 'BE'])) {
+        if (in_array($shippingAddress->getCountryId(), ['NL', 'BE'], true)) {
             return $this->returnOptions->getCustomerCode();
         }
 

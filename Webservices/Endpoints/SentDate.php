@@ -168,7 +168,7 @@ class SentDate extends AbstractEndpoint
      */
     private function getCountryId($shippingAddress)
     {
-        return $shippingAddress && in_array($shippingAddress->getCountryId(), ['NL', 'BE'])
+        return $shippingAddress && in_array($shippingAddress->getCountryId(), ['NL', 'BE'], true)
             ? $shippingAddress->getCountryId() : 'NL';
     }
 
@@ -207,7 +207,7 @@ class SentDate extends AbstractEndpoint
             return $this->dateFallback->get();
         }
 
-        if (in_array($address->getCountryId(), ['NL', 'BE'])
+        if (in_array($address->getCountryId(), ['NL', 'BE'], true)
             || ($address->getCountryId() === null && !empty($deliveryDate))) {
             return $this->dateFallback->getDate($deliveryDate);
         }
