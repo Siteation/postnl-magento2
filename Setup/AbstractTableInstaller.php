@@ -63,7 +63,7 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
     abstract protected function defineTable();
 
     /**
-     * @throws \Zend_Db_Exception
+     * @throws \Exception
      */
     protected function addEntityId()
     {
@@ -87,7 +87,7 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
      * @param bool $nullable
      * @param null $default
      *
-     * @throws \Zend_Db_Exception
+     * @throws \Exception
      */
     protected function addDate($name, $comment, $nullable = true, $default = null)
     {
@@ -112,7 +112,7 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
      * @param bool $nullable
      * @param null $default
      *
-     * @throws \Zend_Db_Exception
+     * @throws \Exception
      */
     protected function addTimestamp($name, $comment, $nullable = true, $default = null)
     {
@@ -138,7 +138,7 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
      * @param bool $unsigned
      * @param null $default
      *
-     * @throws \Zend_Db_Exception
+     * @throws \Exception
      */
     protected function addInt($name, $comment, $nullable = true, $unsigned = false, $default = null)
     {
@@ -184,7 +184,7 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
      * @param array  $fields
      * @param string $indexType
      *
-     * @throws \Zend_Db_Exception
+     * @throws \Exception
      */
     protected function addIndex($fields, $indexType = AdapterInterface::INDEX_TYPE_UNIQUE)
     {
@@ -202,7 +202,7 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
      * @param bool $nullable
      * @param null $default
      *
-     * @throws \Zend_Db_Exception
+     * @throws \Exception
      */
     protected function addText($name, $comment, $length = 255, $nullable = true, $default = null)
     {
@@ -227,7 +227,7 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
      * @param bool $nullable
      * @param null $default
      *
-     * @throws \Zend_Db_Exception
+     * @throws \Exception
      */
     protected function addBlob($name, $comment, $nullable = true, $default = null)
     {
@@ -253,7 +253,7 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
      * @param bool   $nullable
      * @param null   $default
      *
-     * @throws \Zend_Db_Exception
+     * @throws \Exception
      */
     protected function addDecimal($name, $comment, $size = '15,4', $nullable = true, $default = null)
     {
@@ -273,7 +273,7 @@ abstract class AbstractTableInstaller implements InstallSchemaInterface
     }
 
     /**
-     * @return \Zend_Db_Statement_Interface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function saveTable()
     {

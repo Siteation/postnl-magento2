@@ -88,7 +88,7 @@ abstract class AbstractColumnsInstaller implements InstallSchemaInterface
     }
 
     /**
-     * @return \Zend_Db_Statement_Interface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     // @codingStandardsIgnoreLine
     protected function saveTable()
