@@ -1,18 +1,20 @@
 <?php
 
-namespace TIG\PostNL\Setup\V160\Data;
+namespace TIG\PostNL\Setup\Patch\Data;
 
-use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
-use TIG\PostNL\Setup\AbstractDataInstaller;
+use Magento\Framework\Setup\Patch\DataPatchInterface;
 
-class ConfigurationData extends AbstractDataInstaller
+class MigrateConfigurationPaths implements DataPatchInterface
 {
-    /**
-     * @param ModuleDataSetupInterface $setup
-     * @param ModuleContextInterface   $context
-     */
-    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context): void
+    private ModuleDataSetupInterface $moduleDataSetup;
+
+    public function __construct(ModuleDataSetupInterface $moduleDataSetup)
+    {
+        $this->moduleDataSetup = $moduleDataSetup;
+    }
+
+    public function apply(): self
     {
         $configPaths = [
             'tig_postnl/shippingoptions/pakjegemak_active'              => 'tig_postnl/post_offices/pakjegemak_active',
@@ -48,15 +50,25 @@ class ConfigurationData extends AbstractDataInstaller
             'tig_postnl/productoptions/use_alternative_default'         => 'tig_postnl/delivery_settings/use_alternative_default',
             'tig_postnl/productoptions/alternative_default_min_amount'  => 'tig_postnl/delivery_settings/alternative_default_min_amount',
             'tig_postnl/productoptions/alternative_default_option'      => 'tig_postnl/delivery_settings/alternative_default_option',
-            'tig_postnl/productoptions/supported_options'               => 'tig_postnl/delivery_settings/supported_options'
+            'tig_postnl/productoptions/supported_options'               => 'tig_postnl/delivery_settings/supported_options',
         ];
 
-        $table = $setup->getTable('core_config_data');
+        $table = $this->moduleDataSetup->getTable('core_config_data');
+        $connection = $this->moduleDataSetup->getConnection();
         foreach ($configPaths as $oldPath => $newPath) {
-            $setup->getConnection()->update(
-                $table, ['path' => $newPath],
-                ["path = '$oldPath'"]
-            );
+            $connection->update($table, ['path' => $newPath], ["path = '$oldPath'"]);
         }
+
+        return $this;
+    }
+
+    public static function getDependencies(): array
+    {
+        return [];
+    }
+
+    public function getAliases(): array
+    {
+        return [];
     }
 }

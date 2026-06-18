@@ -1,44 +1,34 @@
 <?php
 
-namespace TIG\PostNL\Setup\V191\Data;
+namespace TIG\PostNL\Setup\Patch\Data;
 
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ResourceModel\Eav\Attribute as EavAttribute;
 use Magento\Eav\Model\Entity\Attribute\Source\Boolean;
-use Magento\Eav\Setup\EavSetup;
 use Magento\Eav\Setup\EavSetupFactory;
-use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
-use TIG\PostNL\Setup\AbstractDataInstaller;
+use Magento\Framework\Setup\Patch\DataPatchInterface;
 
-class InstallDisableDeliveryDaysAttribute extends AbstractDataInstaller
+class AddDisableDeliveryDaysAttribute implements DataPatchInterface
 {
-    /**
-     * @var EavSetupFactory
-     */
-    private $eavSetupFactory;
+    private EavSetupFactory $eavSetupFactory;
+    private ModuleDataSetupInterface $moduleDataSetup;
 
-    /**
-     * InstallDisableDeliveryDaysAttribute constructor.
-     *
-     * @param EavSetupFactory $eavSetupFactory
-     */
-    public function __construct(EavSetupFactory $eavSetupFactory)
-    {
+    public function __construct(
+        EavSetupFactory $eavSetupFactory,
+        ModuleDataSetupInterface $moduleDataSetup
+    ) {
         $this->eavSetupFactory = $eavSetupFactory;
+        $this->moduleDataSetup = $moduleDataSetup;
     }
 
-    /**
-     * @param ModuleDataSetupInterface $setup
-     * @param ModuleContextInterface   $context
-     *
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Validator\ValidateException
-     */
-    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context): void
+    public function apply(): self
     {
-        /** @var EavSetup $eavSetup */
-        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $this->moduleDataSetup]);
+
+        if ($eavSetup->getAttributeId(Product::ENTITY, 'postnl_disable_delivery_days') !== false) {
+            return $this;
+        }
 
         $eavSetup->addAttribute(
             Product::ENTITY,
@@ -65,8 +55,22 @@ class InstallDisableDeliveryDaysAttribute extends AbstractDataInstaller
                 'unique'                  => false,
                 'apply_to'                => 'simple,grouped,bundle',
                 'note'                    => 'This setting will override the global PostNL Delivery Days setting. ' .
-                'Delivery Days will be disabled for this product when set to yes.'
+                                             'Delivery Days will be disabled for this product when set to yes.',
             ]
         );
+
+        return $this;
+    }
+
+    public static function getDependencies(): array
+    {
+        return [
+            AddCustomProductAttributes::class,
+        ];
+    }
+
+    public function getAliases(): array
+    {
+        return [];
     }
 }

@@ -1,44 +1,37 @@
 <?php
 
-namespace TIG\PostNL\Setup\V120\Data;
+namespace TIG\PostNL\Setup\Patch\Data;
 
-use Magento\Framework\Setup\ModuleContextInterface;
-use Magento\Framework\Setup\ModuleDataSetupInterface;
-use Magento\Eav\Setup\EavSetupFactory;
-use Magento\Catalog\Model\ResourceModel\Eav\Attribute as EavAttribute;
 use Magento\Catalog\Model\Product;
-use Magento\Eav\Setup\EavSetup;
+use Magento\Catalog\Model\ResourceModel\Eav\Attribute as EavAttribute;
+use Magento\Eav\Setup\EavSetupFactory;
+use Magento\Framework\Setup\ModuleDataSetupInterface;
+use Magento\Framework\Setup\Patch\DataPatchInterface;
 use TIG\PostNL\Config\Provider\ProductType;
-use TIG\PostNL\Setup\AbstractDataInstaller;
 
-class CustomProductAttributes extends AbstractDataInstaller
+class AddCustomProductAttributes implements DataPatchInterface
 {
-    /**
-     * @var EavSetupFactory
-     */
-    private $eavSetupFactory;
+    private EavSetupFactory $eavSetupFactory;
+    private ModuleDataSetupInterface $moduleDataSetup;
 
-    public function __construct(EavSetupFactory $eavSetupFactory)
-    {
+    public function __construct(
+        EavSetupFactory $eavSetupFactory,
+        ModuleDataSetupInterface $moduleDataSetup
+    ) {
         $this->eavSetupFactory = $eavSetupFactory;
+        $this->moduleDataSetup = $moduleDataSetup;
     }
 
-    /**
-     * Add product attributes to the eav/attribute
-     *
-     * @param ModuleDataSetupInterface $setup
-     * @param ModuleContextInterface   $context
-     *
-     * @return void
-     */
-    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context): void
+    public function apply(): self
     {
-        /** @var EavSetup $eavSetup */
-        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $this->moduleDataSetup]);
 
-        /**
-         * Product type
-         */
+        // Guard: all three attributes are created atomically — skip the whole patch if the
+        // first one already exists (idempotent for existing installs that ran InstallData).
+        if ($eavSetup->getAttributeId(Product::ENTITY, 'postnl_product_type') !== false) {
+            return $this;
+        }
+
         $eavSetup->addAttribute(
             Product::ENTITY,
             'postnl_product_type',
@@ -66,9 +59,6 @@ class CustomProductAttributes extends AbstractDataInstaller
             ]
         );
 
-        /**
-         * Parcel count
-         */
         $eavSetup->addAttribute(
             Product::ENTITY,
             'postnl_parcel_count',
@@ -98,9 +88,6 @@ class CustomProductAttributes extends AbstractDataInstaller
             ]
         );
 
-        /**
-         * Volume CM3
-         */
         $eavSetup->addAttribute(
             Product::ENTITY,
             'postnl_parcel_volume',
@@ -129,5 +116,17 @@ class CustomProductAttributes extends AbstractDataInstaller
                                              'Enter as cubic centimeters like 30000.',
             ]
         );
+
+        return $this;
+    }
+
+    public static function getDependencies(): array
+    {
+        return [];
+    }
+
+    public function getAliases(): array
+    {
+        return [];
     }
 }
